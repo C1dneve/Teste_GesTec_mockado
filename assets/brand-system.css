@@ -1,0 +1,273 @@
+/* GesTec visual layer — exclusively for the static HTML mockup.
+   The functional structure and selectors of the original pages are preserved. */
+:root {
+  --navy: #090c5c;
+  --blue: #1589ca;
+  --blue-bg: #e2f4fd;
+  --ink: #15243a;
+  --muted: #627b91;
+  --line: #d6e8f3;
+  --bg: #e8f7ff;
+  --white: #ffffff;
+  --green: #168260;
+  --amber: #a96a08;
+  --red: #c73d4a;
+  --purple: #6650bd;
+  --shadow: 0 10px 30px rgba(9, 44, 91, .075);
+  --r: 15px;
+}
+
+html { color-scheme: light; scroll-behavior: smooth; }
+body {
+  background: linear-gradient(160deg, #8ed8f5 0, #d7f2fc 220px, #effaff 520px, #f7fcff 100%);
+  color: var(--ink);
+}
+button, input, select, textarea { accent-color: var(--blue); }
+:focus-visible { outline: 3px solid rgba(21, 137, 202, .55); outline-offset: 2px; }
+
+/* Institutional blue sidebar and clear active-navigation state. */
+.sidebar {
+  background: linear-gradient(180deg, #090c5c 0%, #0c286f 48%, #126fa8 100%);
+  border-right: 1px solid rgba(255,255,255,.14);
+  box-shadow: 10px 0 28px rgba(9, 31, 92, .08);
+}
+.brand { padding-bottom: 21px; }
+.brand-mark { border: 1px solid rgba(21,137,202,.18); box-shadow: 0 5px 14px rgba(0,0,0,.12); }
+.brand-name { letter-spacing: .025em; }
+.nav-link { transition: background .16s ease, color .16s ease, transform .16s ease; }
+.nav-link.active {
+  background: linear-gradient(110deg, #1589ca 0%, #35b4e6 100%);
+  box-shadow: 0 7px 18px rgba(3, 13, 81, .24), inset 0 0 0 1px rgba(255,255,255,.14);
+}
+.nav-link:hover { background: rgba(255,255,255,.12); transform: translateX(2px); }
+.help-card { background: linear-gradient(145deg, rgba(8,19,83,.58), rgba(28,153,207,.22)); }
+
+/* Watermark and pale cyan canvas inspired by the reference screens. */
+.app-main { position: relative; isolation: isolate; background: transparent; }
+.app-main::before {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  width: min(520px, 48vw);
+  height: min(520px, 48vw);
+  right: 4vw;
+  bottom: -70px;
+  background: url("logo_gestec.png") center / contain no-repeat;
+  opacity: .045;
+  filter: saturate(.8);
+}
+.topbar {
+  background: rgba(250, 254, 255, .88);
+  border-bottom-color: rgba(159, 204, 226, .62);
+  box-shadow: 0 4px 18px rgba(15, 66, 111, .035);
+}
+.top-search, .global-search, .icon-btn {
+  border-color: #d9ebf5;
+  background: rgba(243, 250, 254, .95);
+}
+.breadcrumb, .breadcrumbs { color: #648299; }
+.breadcrumb strong, .breadcrumbs strong { color: #153e64; }
+.page-content { position: relative; z-index: 1; }
+.page-heading h1 { color: #0b2850; }
+.page-heading p { color: #527189; }
+.eyebrow { color: #087cb7; }
+
+/* Cards, tables, inputs and controls use one restrained surface system. */
+.card {
+  border-color: rgba(181, 215, 233, .8);
+  box-shadow: 0 8px 26px rgba(15, 69, 114, .065);
+  backdrop-filter: blur(3px);
+}
+.card-head { border-bottom-color: transparent; }
+.table thead th {
+  color: #55748c;
+  background: #f1f9fd;
+  border-bottom-color: #dbeaf3;
+}
+.table tbody td { border-bottom-color: #e8f1f6; }
+.table tbody tr:hover { background: #f0f9fe; }
+.btn { transition: transform .16s ease, box-shadow .16s ease, background .16s ease; }
+.btn-primary {
+  background: linear-gradient(110deg, #0c70b5, #158fd0 62%, #24a9dd);
+  box-shadow: 0 6px 14px rgba(21, 137, 202, .21);
+}
+.btn-primary:hover { background: linear-gradient(110deg, #075e9d, #087dbb 62%, #1496c9); box-shadow: 0 8px 18px rgba(21, 137, 202, .27); }
+.btn-secondary { border-color: #d3e5f0; background: #fff; color: #31536c; }
+.btn-secondary:hover { border-color: #8bc9e8; background: #f5fbfe; }
+.btn-soft { background: #e4f5fd; color: #087ab4; }
+.search-field, .filter-select, .filter-control,
+.form-field input, .form-field select, .form-field textarea,
+.os-edit-grid input, .os-edit-grid select, .os-edit-grid textarea,
+.comment-composer textarea {
+  border-color: #cfe2ee;
+}
+input:focus, select:focus, textarea:focus, .search-field:focus-within, .global-search:focus-within {
+  border-color: #56b7e2;
+  box-shadow: 0 0 0 3px rgba(21, 137, 202, .11);
+}
+.kpi-icon { background: #e1f4fd; color: #087fb9; }
+.kpi-icon.green { background: #e1f6ee; color: #168260; }
+.kpi-icon.amber { background: #fff2d9; color: #a96a08; }
+.kpi-icon.purple { background: #eee9ff; color: #6650bd; }
+.progress-track span { background: linear-gradient(90deg, #0c7cbd, #69c9ee); }
+.detail-header { border-color: rgba(181, 215, 233, .8); }
+.demo-callout { border-color: #b9e3f5; background: #f1faff; }
+
+/* Login follows the stronger blue-gradient treatment seen in the supplied PDF. */
+.login-page { background: #f8fcff; }
+.login-art {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(87, 207, 247, .38), transparent 34%),
+    radial-gradient(circle at 8% 88%, rgba(32, 120, 216, .34), transparent 35%),
+    linear-gradient(135deg, #090c5c 0%, #0b337c 48%, #1589ca 100%);
+}
+.login-art::before {
+  content: "";
+  position: absolute;
+  width: min(560px, 78%);
+  aspect-ratio: 1;
+  right: -23%;
+  bottom: -25%;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%;
+  box-shadow: 0 0 0 35px rgba(255,255,255,.035), 0 0 0 80px rgba(255,255,255,.025);
+  pointer-events: none;
+}
+.login-art::after {
+  content: "";
+  position: absolute;
+  right: 7%;
+  top: 27%;
+  width: min(320px, 40%);
+  aspect-ratio: 1;
+  background: url("logo_gestec.png") center / contain no-repeat;
+  opacity: .1;
+  filter: grayscale(1) brightness(0) invert(1);
+  pointer-events: none;
+}
+.login-copy, .login-brand, .login-art-foot { z-index: 1; position: relative; }
+.login-copy .eyebrow { color: #9ee8ff; }
+.login-copy h1 { text-wrap: balance; }
+.login-form-wrap {
+  background: linear-gradient(145deg, #f7fcff 0%, #fff 50%, #edf9ff 100%);
+}
+.login-form {
+  padding: 35px;
+  border: 1px solid #dcecf5;
+  border-radius: 22px;
+  background: rgba(255,255,255,.94);
+  box-shadow: 0 20px 55px rgba(13, 61, 109, .11);
+}
+.login-form h2 { color: #0b2850; letter-spacing: -.45px; }
+.login-form .pill { background: #e4f5fd; color: #087ab4; }
+.login-form .btn-primary { width: 100%; min-height: 44px; }
+.login-form .form-field label { color: #385971; }
+.login-form .form-field input { background: #fbfdff; }
+.demo-hint { border-color: #cce8f5; background: #f0f9fe; color: #45667e; }
+.login-form-foot { border-top-color: #e0edf5; }
+
+/* Dark theme remains its own palette instead of merely inverting the light one. */
+html:has(body.dark-mode) { color-scheme: dark; }
+body.dark-mode {
+  --navy: #07184d;
+  --blue: #63c7f1;
+  --blue-bg: #1b3551;
+  --ink: #e5f0fa;
+  --muted: #a1b6c8;
+  --line: #263e55;
+  --bg: #07172a;
+  --white: #10263b;
+  --shadow: 0 10px 30px rgba(0,0,0,.2);
+  background: linear-gradient(150deg, #0a2d52 0%, #081a30 360px, #07131f 100%);
+  color: var(--ink);
+}
+.dark-mode .sidebar {
+  background: linear-gradient(180deg, #061448 0%, #09265c 55%, #0b456b 100%);
+  border-right-color: #24435f;
+}
+.dark-mode .nav-link.active { background: linear-gradient(110deg, #176fa6, #168fb9); color: #fff; }
+.dark-mode .app-main::before { opacity: .035; }
+.dark-mode .topbar { background: rgba(8, 23, 41, .93); border-bottom-color: #233d54; }
+.dark-mode .breadcrumb, .dark-mode .breadcrumbs { color: #9bb2c6; }
+.dark-mode .breadcrumbs strong, .dark-mode .page-heading h1 { color: #edf7ff; }
+.dark-mode .page-heading p, .dark-mode .muted, .dark-mode .card-subtitle { color: #a1b6c8; }
+.dark-mode .card, .dark-mode .modal-overlay .modal, .dark-mode .dropdown {
+  background: #10263b;
+  border-color: #263e55;
+  color: #e5f0fa;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+.dark-mode .table thead th { background: #132e47; color: #a8c5d8; border-color: #263e55; }
+.dark-mode .table tbody td { color: #d2e1ee; border-color: #22394e; }
+.dark-mode .table tbody tr:hover { background: #173249; }
+.dark-mode .btn-secondary, .dark-mode .icon-btn, .dark-mode .top-search,
+.dark-mode .global-search, .dark-mode .search-field, .dark-mode .filter-select,
+.dark-mode .filter-control, .dark-mode input:not([type=checkbox]):not([type=radio]):not([type=file]),
+.dark-mode select, .dark-mode textarea {
+  background: #0c2033;
+  color: #e5f0fa;
+  border-color: #2d4a63;
+}
+.dark-mode .btn-secondary:hover { background: #17344c; border-color: #4c86aa; }
+.dark-mode .btn-soft { background: #173a53; color: #96def8; }
+.dark-mode .login-page { background: #081625; }
+.dark-mode .login-form-wrap { background: linear-gradient(145deg, #091d31, #0b2033); }
+.dark-mode .login-form { background: #10263b; border-color: #2b465d; box-shadow: 0 20px 55px rgba(0,0,0,.25); }
+.dark-mode .login-form h2 { color: #edf7ff; }
+.dark-mode .login-form .form-field label { color: #c3d8e7; }
+.dark-mode .login-form .form-field input { background: #0b1f32; color: #edf7ff; border-color: #2d4a63; }
+.dark-mode .demo-hint { background: #132f45; border-color: #2d4d62; color: #b6cedd; }
+.dark-mode .login-form-foot { border-color: #2b465d; }
+.dark-mode .demo-callout { background: #132f45; border-color: #2a526a; }
+.dark-mode .audit-table tbody tr:hover { background: #173249; }
+
+@media (max-width: 920px) {
+  .app-main::before { width: 340px; height: 340px; right: -70px; bottom: 5px; }
+  .login-form { padding: 28px; }
+}
+@media (max-width: 760px) {
+  .app-main::before { opacity: .025; }
+  .login-page { grid-template-columns: 1fr; }
+  .login-art { min-height: 300px; padding: 28px 7vw; }
+  .login-copy { margin: 36px 0 28px; }
+  .login-copy h1 { font-size: 30px; }
+  .login-form-wrap { padding: 22px; }
+  .login-form { width: min(100%, 480px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* Specific contrast guards for the sidebar's generated shell markup. */
+.sidebar .nav-link { color: #c9e3f2; }
+.sidebar .nav-link .icon { color: inherit; }
+.sidebar .nav-link.active,
+.sidebar .nav-link.active .icon { color: #ffffff; }
+.sidebar .nav-section, .sidebar .workspace-label { color: #a8cde3; }
+.sidebar .help-card strong { color: #ffffff; }
+.sidebar .help-card p { color: #c0d8e8; }
+.sidebar .help-card a { color: #b4edff; }
+.sidebar .user-info strong { color: #ffffff; }
+.sidebar .user-info small { color: #c1d8e8; }
+.dark-mode .sidebar .nav-link { color: #c4dce9; }
+.dark-mode .sidebar .nav-link.active,
+.dark-mode .sidebar .nav-link.active .icon { color: #ffffff; }
+
+
+/* Dark-surface refinements verified against the dashboard and login references. */
+.dark-mode .page-content .btn-secondary { background: #0c2033 !important; color: #e5f0fa; border-color: #2d4a63; }
+.dark-mode .page-content .btn-secondary:hover { background: #17344c !important; border-color: #4c86aa; }
+.dark-mode .quick-links .quick-link { background: #10263b !important; color: #e5f0fa; border-color: #263e55; }
+.dark-mode .quick-links .quick-link strong { color: #edf7ff; }
+.dark-mode .quick-links .quick-link span, .dark-mode .quick-links .quick-link small { color: #a8c1d2; }
+.dark-mode .legend-row { color: #b4c7d8; }
+.dark-mode .legend-row strong { color: #e5f0fa; }
+.dark-mode .demo-hint strong { color: #e5f0fa; }
+.dark-mode .login-options .check-line { color: #bbcbd9; }
+
+@media (max-width: 620px) {
+  .grid.two-col { grid-template-columns: minmax(0, 1fr); }
+  .chart-bottom { flex-wrap: wrap; }
+  .chart-bottom .status { white-space: normal; }
+}

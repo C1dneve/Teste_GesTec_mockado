@@ -1,0 +1,241 @@
+{
+  "pages": {
+    "index.html": {
+      "purpose": "Página inicial; redireciona para o dashboard",
+      "light": "N/A — redireciona",
+      "dark": "N/A — redireciona",
+      "errors": [],
+      "result": "PASS"
+    },
+    "login.html": {
+      "purpose": "Seu trabalho conectado.\nResultados em movimento.",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "dashboard.html": {
+      "purpose": "Visão geral",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "clientes.html": {
+      "purpose": "Clientes",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "departamentos.html": {
+      "purpose": "Departamentos",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "equipes.html": {
+      "purpose": "Equipes",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "funcionarios.html": {
+      "purpose": "Funcionários",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "ordens.html": {
+      "purpose": "Ordens de serviço",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "ordem-detalhe.html": {
+      "purpose": "OS-2024-0156",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "projetos.html": {
+      "purpose": "Projetos",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "relatorios.html": {
+      "purpose": "Relatórios e indicadores",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "auditoria.html": {
+      "purpose": "Logs de auditoria",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    },
+    "modais.html": {
+      "purpose": "Galeria de modais",
+      "light": "PASS",
+      "dark": "PASS",
+      "errors": [],
+      "overflowX": false,
+      "brokenImages": [],
+      "mobileOverflowX": false
+    }
+  },
+  "interactions": {
+    "theme_toggle_and_persistence": {
+      "passed": true,
+      "toggle_dark": true,
+      "stored_value": "dark",
+      "persisted_next_page": true,
+      "errors": []
+    },
+    "modal_open_escape_scroll_lock": {
+      "passed": true,
+      "opened": true,
+      "escape_closed_and_scroll_released": true,
+      "errors": []
+    },
+    "client_search_edit_and_create": {
+      "passed": true,
+      "initial_rows": 6,
+      "search_match_rows": 1,
+      "empty_search_hides_rows": true,
+      "detail_modal_opened": true,
+      "existing_client_edit_updated_row": true,
+      "create_form_added_row": true,
+      "created_client_persisted_after_page_reload": true,
+      "errors": []
+    },
+    "orders_search_filter_views_and_create": {
+      "passed": true,
+      "matching_search_rows": 1,
+      "empty_search_hides_rows": true,
+      "completed_status_filter_rows": 2,
+      "kanban_toggle": true,
+      "list_toggle": true,
+      "create_order_added_row": true,
+      "errors": []
+    },
+    "project_edit_and_create": {
+      "passed": true,
+      "detail_modal_opened": true,
+      "existing_project_edit_updated_card": true,
+      "create_form_added_card": true,
+      "errors": []
+    },
+    "audit_search": {
+      "passed": true,
+      "matching_rows": 4,
+      "empty_filter": true,
+      "errors": []
+    },
+    "department_team_employee_create": {
+      "passed": true,
+      "cases": {
+        "departamentos.html": {
+          "created": true,
+          "errors": []
+        },
+        "equipes.html": {
+          "created": true,
+          "errors": []
+        },
+        "funcionarios.html": {
+          "created": true,
+          "errors": []
+        }
+      }
+    },
+    "login_password_toggle": {
+      "passed": true,
+      "password_shown": true,
+      "password_remasked": true,
+      "errors": []
+    },
+    "order_detail_tabs": {
+      "passed": true,
+      "history_initially_visible": true,
+      "hours_tab": true,
+      "attachments_tab": true,
+      "errors": []
+    },
+    "modal_gallery_open_close": {
+      "passed": true,
+      "modal_opened": true,
+      "modal_closed": true,
+      "errors": []
+    },
+    "csv_export": {
+      "passed": true,
+      "cases": {
+        "clientes.html": {
+          "downloaded": true,
+          "filename": "clientes.csv",
+          "errors": []
+        },
+        "relatorios.html": {
+          "downloaded": true,
+          "filename": "relatorio-gestec.csv",
+          "errors": []
+        },
+        "auditoria.html": {
+          "downloaded": true,
+          "filename": "logs-auditoria.csv",
+          "errors": []
+        }
+      }
+    },
+    "generic_demo_form_feedback": {
+      "passed": true,
+      "feedback": "Horas lançadas na demonstração.",
+      "modal_closed": true,
+      "errors": []
+    }
+  },
+  "static_checks": {
+    "all_13_pages_present": true,
+    "html_count": 13,
+    "brand_css_linked_to_all_non_redirect_pages": true,
+    "missing_local_links": [],
+    "invalid_html_pages_missing_html_or_body": [],
+    "main_js_node_syntax_check": "PASS",
+    "main_js_syntax_stderr": "",
+    "main_js_fetch_or_xhr_references": false,
+    "main_js_local_storage_demo_crud": true
+  }
+}

@@ -1,0 +1,5 @@
+Evidências visuais do redesign GesTec
+
+Capturas renderizadas com Chromium/Playwright em viewport desktop de 1440 x 900; as imagens são full-page. Os arquivos com sufixo light e dark mostram a paleta de cada tema. As folhas de contato permitem comparar todas as páginas de uma vez.
+
+Observação: o harness de validação incorporou CSS, JavaScript e logo em memória para renderizar com o navegador no ambiente; essa incorporação não foi aplicada aos HTMLs finais. O projeto final continua referenciando os arquivos locais em assets/.

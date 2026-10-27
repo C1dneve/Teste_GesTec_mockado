@@ -131,7 +131,7 @@
       const deleteBtn=e.target.closest('[data-delete-confirm]');if(deleteBtn){openModal(deleteBtn.dataset.deleteConfirm);return;}
     });
     document.addEventListener('keydown',e=>{if(e.key==='Escape') $$('.modal-overlay.is-open').forEach(closeModal);if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('[data-global-search]')?.focus();}});
-    $$('form[data-mock-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault(); const msg=form.dataset.success||'Informações salvas na demonstração.';const m=form.closest('.modal-overlay');if(m)closeModal(m);toast(msg);form.reset();}));
+    $$('form[data-mock-form]').forEach(form=>form.addEventListener('submit',e=>{e.preventDefault(); const m=form.closest('.modal-overlay'); const result=handleDemoCreate(form,m); if(result.handled&&!result.valid){toast(result.message);return;} const msg=result.handled?result.message:(form.dataset.success||'Informações salvas na demonstração.');if(m)closeModal(m);toast(msg);form.reset();}));
     $$('[data-search]').forEach(input=>input.addEventListener('input',()=>filterRows(input)));
     $('[data-global-search]')?.addEventListener('keydown', e=>{if(e.key==='Enter'){const q=e.target.value.toLowerCase();let match=$$('[data-searchable]').find(el=>el.innerText.toLowerCase().includes(q));if(match){match.scrollIntoView({behavior:'smooth',block:'center'});match.classList.add('search-highlight');setTimeout(()=>match.classList.remove('search-highlight'),1800);}else toast('Nenhum resultado demonstrativo para esta busca.');}});
     $$('[data-filter]').forEach(sel=>sel.addEventListener('change',()=>applyFilters()));
@@ -196,6 +196,84 @@
     if (!node) return;
     const cls = {'Crítica':'critical','Alta':'high','Média':'medium','Baixa':'low'}[value] || 'medium';
     node.className = 'priority ' + cls; node.textContent = value;
+  }
+
+  // CRUD demonstrativo: os novos registros ficam somente no localStorage deste navegador.
+  // Nenhuma API, backend ou banco de dados é chamado.
+  const demoStatusClass = value => ({'Em andamento':'in-progress','Aguardando':'open','Concluída':'done','Em análise':'review','Bloqueada':'blocked','Inativa':'blocked','Planejamento':'waiting','Pausado':'blocked','Concluído':'done','Ativo':'done','Inativo':'blocked'}[value] || 'review');
+  const demoPriorityClass = value => ({'Crítica':'critical','Alta':'high','Média':'medium','Baixa':'low'}[value] || 'medium');
+  const readDemoField = (form, name) => String(form.elements.namedItem(name)?.value || '').trim();
+  const demoDate = value => {
+    if (!value) return 'Sem prazo';
+    const d = new Date(value + 'T12:00:00');
+    return Number.isNaN(d.getTime()) ? value : d.toLocaleDateString('pt-BR');
+  };
+  function appendDemoRecord(record) {
+    if (!record || !record.type || !record.fields) return;
+    const f = record.fields, esc = escapeHTML, avatar = name => esc(initials(name));
+    if (record.type === 'cliente' && current === 'clientes') {
+      const body = $('#clientes-table tbody'); if (!body || body.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      const status = f.status || 'Ativo';
+      body.insertAdjacentHTML('afterbegin', `<tr data-demo-record="${esc(record.id)}" data-searchable data-status="${esc(status)}" data-client-name="${esc(f.nome)}" data-client-document="${esc(f.documento)}" data-client-city="${esc(f.cidade)}" data-client-contact="${esc(f.email)}"><td><div class="entity-cell"><span class="avatar blue">${avatar(f.nome)}</span><span><a class="primary-cell" href="#" data-client-detail>${esc(f.nome)}</a><small class="sub-cell">${f.documento ? 'CNPJ ' + esc(f.documento) : 'Documento não informado'}</small></span></div></td><td>${esc(f.cidade || 'Não informado')}</td><td><span class="pill">0 ordens</span></td><td><span class="status ${demoStatusClass(status)}">${esc(status)}</span></td><td><span class="muted small">Criado nesta demonstração</span></td><td><button class="icon-action icon-only" data-client-detail type="button" aria-label="Abrir detalhes" title="Abrir detalhes">◉</button></td></tr>`);
+      return;
+    }
+    if (record.type === 'departamento' && current === 'departamentos') {
+      const grid = $('#department-grid'); if (!grid || grid.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      const code = f.centro || 'DEMO';
+      grid.insertAdjacentHTML('afterbegin', `<article class="card department-card" data-demo-record="${esc(record.id)}" data-searchable><div class="department-head"><span class="department-symbol blue">${avatar(code)}</span><button class="text-action" type="button" data-toast="Ações do departamento disponíveis na demonstração.">⋯</button></div><h3>${esc(f.nome)}</h3><p class="muted small">Departamento · ${esc(code)}</p><div class="department-manager"><span class="muted small">Gestor responsável</span><div class="entity-cell"><span class="avatar avatar-purple">${avatar(f.gestor || 'Não definido')}</span><strong>${esc(f.gestor || 'Não definido')}</strong></div></div><div class="department-footer"><span>♙ 0 colaboradores</span><span>▤ 0 ordens abertas</span></div><div class="department-actions"><a class="btn btn-secondary btn-sm" href="funcionarios.html">Ver colaboradores →</a><span class="status done">Ativo</span></div></article>`);
+      return;
+    }
+    if (record.type === 'equipe' && current === 'equipes') {
+      const grid = $('#team-grid'); if (!grid || grid.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      const members = Math.max(0, Number.parseInt(f.membros, 10) || 0);
+      grid.insertAdjacentHTML('afterbegin', `<article class="card team-card" data-demo-record="${esc(record.id)}" data-searchable><div class="team-head"><span class="team-symbol blue">${avatar(f.nome)}</span><button class="text-action" type="button" data-toast="Ações da equipe disponíveis na demonstração.">⋯</button></div><h3>${esc(f.nome)}</h3><p class="muted small">${esc(f.departamento || 'Sem departamento')}</p><div class="team-leader"><span class="muted small">Líder da equipe</span><div class="entity-cell"><span class="avatar avatar-purple">${avatar(f.lider || 'Não definido')}</span><strong>${esc(f.lider || 'Não definido')}</strong></div></div><div class="team-stats"><div><strong>${members}</strong><small>membros</small></div><div><strong>0</strong><small>ordens vinculadas</small></div></div><div class="team-bottom"><div class="mini-avatar-group"><span class="avatar avatar-purple">${avatar(f.lider || 'Não definido')}</span><span class="avatar more-avatar">+${Math.max(0,members-1)}</span></div><a class="more-link" href="ordens.html">Ver ordens →</a></div></article>`);
+      return;
+    }
+    if (record.type === 'funcionario' && current === 'funcionarios') {
+      const body = $('#funcionarios-table tbody'); if (!body || body.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      body.insertAdjacentHTML('afterbegin', `<tr data-demo-record="${esc(record.id)}" data-searchable data-status="Ativo"><td><div class="entity-cell"><span class="avatar purple">${avatar(f.nome)}</span><span><a class="primary-cell" href="#" data-toast="Perfil demonstrativo de ${esc(f.nome)}.">${esc(f.nome)}</a><small class="sub-cell">${esc(f.email || 'E-mail não informado')}</small></span></div></td><td>${esc(f.cargo || 'Não informado')}</td><td><span class="pill">${esc(f.departamento || 'Sem departamento')}</span></td><td><span class="status done">Ativo</span></td><td><span class="muted small">${esc(f.perfil || 'Colaborador')}</span></td><td><button class="text-action" type="button" data-toast="Ações do colaborador disponíveis na demonstração.">⋯</button></td></tr>`);
+      return;
+    }
+    if (record.type === 'projeto' && current === 'projetos') {
+      const grid = $('#project-grid'); if (!grid || grid.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      const code = record.id.toUpperCase(), status = f.status || 'Planejamento';
+      grid.insertAdjacentHTML('afterbegin', `<article class="card project-card" data-demo-record="${esc(record.id)}" data-project-client="${esc(f.cliente)}" data-project-code="${esc(code)}" data-project-name="${esc(f.nome)}" data-project-owner="${esc(f.gerente)}" data-project-progress="0" data-searchable data-status="${esc(status)}"><div class="project-card-head"><span class="project-symbol blue">▱</span></div><div class="project-code">${esc(code)}</div><h3><button class="project-title-button" type="button" data-project-detail>${esc(f.nome)}</button></h3><p class="project-client">♙ ${esc(f.cliente || 'Cliente não informado')}</p><div class="project-status-row"><span class="status ${demoStatusClass(status)}">${esc(status)}</span><span class="muted small">0%</span></div><div class="progress-track"><span style="width:0%"></span></div><div class="project-metrics"><span>▤ <b>0</b> ordens</span><span>◷ <b>Prazo: ${esc(demoDate(f.fim))}</b></span></div><div class="project-card-footer"><span class="avatar avatar-purple">${avatar(f.gerente || 'MC')}</span><span>${esc(f.gerente || 'Não definido')}</span><a href="ordens.html">Ver ordens →</a></div></article>`);
+      return;
+    }
+    if (record.type === 'ordem' && ['ordens','dashboard'].includes(current)) {
+      const table = current === 'dashboard' ? $('#dashboard-os') : $('#os-table');
+      const body = table?.querySelector('tbody'); if (!body || body.querySelector(`[data-demo-record="${CSS.escape(record.id)}"]`)) return;
+      const id = 'OS-DEMO-' + record.id.replace(/^ordem-/, '').toUpperCase(), status = 'Aguardando', priority = f.prioridade || 'Média';
+      const row = `<tr data-demo-record="${esc(record.id)}" data-searchable data-status="${status}" data-prioridade="${esc(priority)}"><td><a class="primary-cell link-blue" href="#" data-toast="Detalhe ${esc(id)} disponível nesta demonstração.">${esc(id)}</a><span class="sub-cell">Criada nesta demonstração</span></td><td><span class="primary-cell">${esc(f.titulo)}</span><span class="sub-cell">${esc(f.cliente || 'Cliente não informado')}</span></td><td><span class="avatar avatar-purple">${avatar(f.responsavel || 'Não definido')}</span> <span class="owner-name">${esc(f.responsavel || 'Não definido')}</span></td><td><span class="status open">${status}</span></td><td><span class="priority ${demoPriorityClass(priority)}">${esc(priority)}</span></td><td><span class="muted small">${esc(demoDate(f.prazo))}</span></td><td><button class="text-action" type="button" data-toast="Ações de ${esc(id)} disponíveis na demonstração." aria-label="Ações">⋯</button></td></tr>`;
+      body.insertAdjacentHTML('afterbegin', row);
+      return;
+    }
+  }
+  function handleDemoCreate(form, modal) {
+    const typeByModal = {'modal-novo-cliente':'cliente','modal-novo-departamento':'departamento','modal-nova-equipe':'equipe','modal-novo-funcionario':'funcionario','modal-novo-projeto':'projeto','modal-nova-os':'ordem'};
+    const type = typeByModal[modal?.id];
+    if (!type) return {handled:false};
+    const fieldsByType = {
+      cliente:['nome','documento','email','telefone','cidade','status','obs'],
+      departamento:['nome','gestor','centro','descricao'],
+      equipe:['nome','lider','departamento','membros','descricao'],
+      funcionario:['nome','email','cargo','departamento','telefone','perfil'],
+      projeto:['nome','cliente','gerente','inicio','fim','status','descricao'],
+      ordem:['titulo','cliente','projeto','responsavel','prioridade','prazo','descricao']
+    };
+    const fields = Object.fromEntries(fieldsByType[type].map(key => [key, readDemoField(form,key)]));
+    const titleField = type === 'ordem' ? 'titulo' : 'nome';
+    if (!fields[titleField]) return {handled:true,valid:false,message:'Preencha o nome/título para criar o registro demonstrativo.'};
+    const token = (Date.now().toString(36) + Math.random().toString(36).slice(2,6)).toUpperCase();
+    const record = {type,id:`${type}-${token}`,fields};
+    appendDemoRecord(record);
+    const records = safeJSON('mockup-demo-records', []);
+    records.push(record); safeStore('mockup-demo-records', records.slice(-100));
+    return {handled:true,valid:true,message:form.dataset.success || 'Registro criado na demonstração.'};
+  }
+  function hydrateDemoRecords() {
+    const records = safeJSON('mockup-demo-records', []);
+    if (Array.isArray(records)) records.forEach(appendDemoRecord);
   }
   function initOSPage() {
     if (current !== 'ordens') return;
@@ -364,6 +442,6 @@
   }
 
   function queryModal(){const id=new URLSearchParams(location.search).get('modal');if(id)openModal(id.startsWith('modal-')?id:'modal-'+id);}
-  function init(){if(safeGet('mockup-theme','light')==='dark')document.body.classList.add('dark-mode');renderShell();decorateActionButtons();bindGlobal();charts();initOSPage();initAuditPage();initDirectEntityEditing();queryModal();$$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());}
+  function init(){if(safeGet('mockup-theme','light')==='dark')document.body.classList.add('dark-mode');renderShell();hydrateDemoRecords();decorateActionButtons();bindGlobal();charts();initOSPage();initAuditPage();initDirectEntityEditing();queryModal();$$('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());}
   document.addEventListener('DOMContentLoaded',init);
 })();
