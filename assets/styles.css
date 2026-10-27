@@ -43,3 +43,89 @@ body.dark-mode{--bg:#11151d;--white:#191f2a;--ink:#e8edf5;--muted:#9aa6b8;--line
 /* Paginação também no quadro, sem scroll infinito. */
 .os-kanban-pagination-footer{grid-column:1/-1;margin-top:3px;padding:14px 4px 3px;border-top:1px solid var(--line)}
 @media(max-width:760px){.os-kanban-pagination-footer{padding-left:0;padding-right:0}}
+
+/* Consistência visual: detalhes de OS seguem a hierarquia das demais telas. */
+.detail-header{gap:20px;padding:24px}
+.detail-title{font-size:22px;line-height:1.3}
+.detail-header .detail-description{font-size:13px;line-height:1.65}
+.detail-id-line{font-size:11px;gap:18px}
+.detail-meta>span{font-size:11px;line-height:1.4}
+.detail-meta>strong{font-size:13px;line-height:1.4;color:var(--ink)}
+.detail-meta>small{font-size:10px;line-height:1.4;color:var(--muted)}
+.timeline-item strong{font-size:12px}
+.timeline-item p{font-size:11px;line-height:1.6}
+.timeline-item small{font-size:10px}
+.checklist label{font-size:11px;line-height:1.45}
+.detail-aside .muted.small{font-size:11px}
+.property-list span{font-size:11px}
+.property-list strong{font-size:11px;line-height:1.45;color:var(--ink)}
+.person-row strong{font-size:11px}
+.person-row small{font-size:10px}
+.comment-head strong{font-size:12px}
+.comment-head small{font-size:10px}
+.comment p{font-size:11px;line-height:1.65}
+.comment-composer textarea{font-size:12px}
+.attachment-card strong{font-size:11px}
+.attachment-card small{font-size:10px}
+
+/* Contraste do tema escuro: preservar a paleta; clarear apenas textos difíceis de ler. */
+.dark-mode .detail-header .detail-title,
+.dark-mode .detail-meta>strong,
+.dark-mode .property-list strong,
+.dark-mode .timeline-item strong,
+.dark-mode .person-row strong,
+.dark-mode .comment-head strong,
+.dark-mode .attachment-card strong,
+.dark-mode .os-name,
+.dark-mode .os-list-toolbar h2,
+.dark-mode .os-detail-title-line h2,
+.dark-mode .os-edit-grid .form-field label{color:#e3eaf5}
+.dark-mode .detail-description,
+.dark-mode .detail-meta>span,
+.dark-mode .detail-id-line,
+.dark-mode .property-list span,
+.dark-mode .timeline-item p,
+.dark-mode .comment p,
+.dark-mode .checklist label,
+.dark-mode .person-row small,
+.dark-mode .comment-head small,
+.dark-mode .attachment-card small,
+.dark-mode .os-id,
+.dark-mode .kanban-card-footer,
+.dark-mode .modal-header p{color:#afbdcf}
+.dark-mode .detail-meta>small,
+.dark-mode .timeline-item small{color:#98a9bf}
+.dark-mode .tabs .tab:not(.active){color:#afbdcf}
+.dark-mode .os-detail-meta-strip span{color:#afbdcf}
+.dark-mode .os-detail-meta-strip b{color:#e3eaf5}
+.dark-mode .detail-header .detail-id-line b{color:#8eb7f9}
+.dark-mode .btn-secondary{opacity:1;filter:none}
+
+@media(max-width:920px){
+  .detail-header{padding:20px}
+  .detail-header .detail-description{font-size:12px}
+}
+@media(max-width:620px){
+  .detail-header{padding:17px}
+  .detail-title{font-size:20px}
+  .detail-meta>strong{font-size:12px}
+  .comment-head{align-items:flex-start;flex-direction:column;gap:4px}
+}
+
+/* Colunas da página de detalhes empilham sem sobreposição em tablets e celulares. */
+@media(max-width:920px){
+  .detail-layout{grid-template-columns:minmax(0,1fr)}
+  .detail-main,.detail-aside{min-width:0;width:100%}
+  .detail-aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+  .detail-aside .section-gap{margin-top:0}
+  .detail-aside>section:first-child{grid-column:1/-1}
+}
+@media(max-width:620px){
+  .detail-layout{grid-template-columns:minmax(0,1fr);gap:14px}
+  .detail-aside{grid-template-columns:minmax(0,1fr);gap:14px}
+  .detail-aside>section:first-child{grid-column:auto}
+  .detail-aside .section-gap{margin-top:0}
+  .detail-meta-grid{grid-template-columns:minmax(0,1fr)}
+  .detail-meta{border-right:0;border-bottom:1px solid var(--line)}
+  .detail-meta:last-child{border-bottom:0}
+}
